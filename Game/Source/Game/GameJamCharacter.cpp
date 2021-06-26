@@ -66,6 +66,8 @@ void AGameJamCharacter::Tick(float DeltaTime)
 
 	DragProgress(Hit);
 
+	GetMesh()->SetWorldRotation(GetControlRotation());
+
 }
 
 void AGameJamCharacter::DragProgress_Implementation(FHitResult Hit)
