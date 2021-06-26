@@ -38,7 +38,7 @@ void AGameJamCharacter::BeginPlay()
 {
 	Super::BeginPlay();
 
-
+	SetActorRotation(GetControlRotation());
 
 }
 
@@ -164,14 +164,12 @@ void AGameJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 
 void AGameJamCharacter::MoveForwards(float AxisValue)
 {
-	FVector Location = UKismetMathLibrary::GetForwardVector(GetControlRotation());
-	AddMovementInput(Location, AxisValue, false);
+	AddMovementInput(UKismetMathLibrary::GetForwardVector(FRotator(0, GetControlRotation().Yaw, 0)), AxisValue, false);
 }
 
 void AGameJamCharacter::MoveSideToSide(float AxisValue)
 {
-	FVector Location = UKismetMathLibrary::GetRightVector(GetControlRotation());
-	AddMovementInput(Location, AxisValue * -1, false);
+	AddMovementInput(UKismetMathLibrary::GetRightVector(FRotator(0, GetControlRotation().Yaw, 0)), AxisValue, false);
 }
 
 
