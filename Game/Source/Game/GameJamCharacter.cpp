@@ -17,13 +17,13 @@ AGameJamCharacter::AGameJamCharacter()
 	FlashLightMesh->SetupAttachment(GetMesh());
 	FlashLightMesh->SetMobility(EComponentMobility::Movable);
 
-	Light = CreateDefaultSubobject<USpotLightComponent >(TEXT("Light"));
-	Light->SetupAttachment(FlashLightMesh);
-	Light->SetMobility(EComponentMobility::Movable);
-
 	Camera = CreateDefaultSubobject<UCameraComponent>(TEXT("Camera"));
 	Camera->SetupAttachment(GetMesh());
 	Camera->bUsePawnControlRotation = true;
+
+	Light = CreateDefaultSubobject<USpotLightComponent >(TEXT("Light"));
+	Light->SetupAttachment(Camera);
+	Light->SetMobility(EComponentMobility::Movable);
 
 	Arrow = CreateDefaultSubobject<UArrowComponent>(TEXT("EyeLevel Arrow"));
 	Arrow->SetupAttachment(Camera);
