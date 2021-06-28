@@ -50,6 +50,9 @@ public:
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		AActor* LineTraceHitActor;
 
+	UFUNCTION(BlueprintImplementableEvent)
+		void OnHitDraggableActor(FHitResult Hit);
+
 private:
 
 	//movements
@@ -61,7 +64,11 @@ private:
 	FHitResult StartDefaultLineTrace(ECollisionChannel Channel);
 
 	UFUNCTION(Server, Reliable)
+		void DragAndInteract();
+	UFUNCTION(Server, Reliable)
 		void DragStart();
+	UFUNCTION(Server, Reliable)
+		void InteractStart();
 	UFUNCTION(Server, Reliable)
 		void DragEnd();
 	UFUNCTION(Server, Reliable)

@@ -55,7 +55,7 @@ void AGameJamCharacter::Tick(float DeltaTime)
 		Hit.Location,
 		2.f,
 		1,
-		FColor::White,
+		FColor::Red,
 		false,
 		0.1,
 		1,
@@ -89,8 +89,8 @@ FHitResult AGameJamCharacter::StartDefaultLineTrace(ECollisionChannel Channel)
 {
 
 	FHitResult OutHit;
-	FVector Start = GetActorLocation();
-	FVector End = (Arrow->GetForwardVector() * ReachRange) + Start;
+	FVector Start = Camera->GetComponentLocation();
+	FVector End = (Camera->GetForwardVector() * ReachRange) + Start;
 	FCollisionQueryParams CollisionParams;
 	if (PhysicsHandle && PhysicsHandle->GrabbedComponent)
 		CollisionParams.AddIgnoredComponent(PhysicsHandle->GrabbedComponent);
@@ -151,7 +151,7 @@ void AGameJamCharacter::SetupPlayerInputComponent(UInputComponent* PlayerInputCo
 		"Drag",
 		IE_Pressed,
 		this,
-		&AGameJamCharacter::DragStart
+		&AGameJamCharacter::DragAndInteract
 	);
 
 	PlayerInputComponent->BindAction
@@ -194,6 +194,20 @@ void AGameJamCharacter::MoveJump()
 	Jump();
 }
 
+void 	AGameJamCharacter::InteractStart_Implementation()
+{
+	FHitResult OutHit = StartDefaultLineTrace(ECC_Visibility);
+
+	AActor* Interactable = OutHit.GetActor();
+
+	if (!Interactable)
+	{
+		return;
+	}
+
+	OnHitDraggableActor(OutHit);
+}
+
 void AGameJamCharacter::DragStart_Implementation()
 {
 	FHitResult OutHit = StartDefaultLineTrace(ECC_GameTraceChannel1);
@@ -213,6 +227,12 @@ void AGameJamCharacter::DragStart_Implementation()
 
 	PhysicsHandle->GrabComponentAtLocation(ToBeGrabbed, TEXT(""), OutHit.Location);
 
+}
+
+void AGameJamCharacter::DragAndInteract_Implementation()
+{
+	DragStart();
+	InteractStart();
 }
 
 void AGameJamCharacter::DragEnd_Implementation()
