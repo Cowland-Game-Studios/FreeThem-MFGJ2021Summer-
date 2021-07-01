@@ -47,8 +47,6 @@ public:
 		UArrowComponent* Arrow = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		UCameraComponent* Camera = nullptr;
-	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		AActor* LineTraceHitActor;
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnHitDraggableActor(FHitResult Hit);

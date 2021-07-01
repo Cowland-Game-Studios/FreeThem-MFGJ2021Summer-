@@ -62,12 +62,16 @@ void AGameJamCharacter::Tick(float DeltaTime)
 		1.f
 	);
 
-	LineTraceHitActor = Hit.GetActor();
+	if (HasAuthority())
+	{
+		DragProgress(Hit);
+	}
 
-	DragProgress(Hit);
-
-	GetMesh()->SetWorldRotation(GetControlRotation());
-
+	/*if ((!IsLocallyControlled()) && GetWorld()->IsServer()) 
+	{
+		GetMesh()->SetWorldRotation(GetControlRotation());
+	}*/
+	
 }
 
 void AGameJamCharacter::DragProgress_Implementation(FHitResult Hit)
