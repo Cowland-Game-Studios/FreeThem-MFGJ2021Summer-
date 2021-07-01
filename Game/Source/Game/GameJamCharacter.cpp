@@ -13,7 +13,8 @@ AGameJamCharacter::AGameJamCharacter()
 	bUseControllerRotationPitch = true;
 
 	//objects
-	FlashLightMesh = CreateDefaultSubobject<UStaticMeshComponent >(TEXT("FlashLight"));
+	FlashLightMesh = CreateDefaultSubobject<UChildActorComponent>(TEXT("FlashLight"));
+	FlashLightMesh->CreateChildActor();
 	FlashLightMesh->SetupAttachment(GetMesh());
 	FlashLightMesh->SetMobility(EComponentMobility::Movable);
 

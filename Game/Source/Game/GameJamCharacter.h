@@ -38,7 +38,7 @@ public:
 	virtual void SetupPlayerInputComponent(class UInputComponent* PlayerInputComponent) override;
 
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
-		UStaticMeshComponent* FlashLightMesh = nullptr;
+		UChildActorComponent* FlashLightMesh = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
 		USpotLightComponent* Light = nullptr;
 	UPROPERTY(EditAnywhere, BlueprintReadWrite)
