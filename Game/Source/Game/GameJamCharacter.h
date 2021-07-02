@@ -71,6 +71,8 @@ private:
 		void DragEnd();
 	UFUNCTION(Server, Reliable)
 		void DragProgress(FHitResult Hit);
+	UFUNCTION(NetMulticast, Reliable)
+		void SetAgainstPawnCollisionSettings(UPrimitiveComponent* Component, const ECollisionResponse NewResponse);
 
 	//components
 	UPROPERTY(EditAnywhere)

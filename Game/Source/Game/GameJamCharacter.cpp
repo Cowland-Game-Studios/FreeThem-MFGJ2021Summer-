@@ -10,7 +10,9 @@ AGameJamCharacter::AGameJamCharacter()
 	PrimaryActorTick.bCanEverTick = true;
 
 	GetCharacterMovement()->AirControl = 1.0f;
-	bUseControllerRotationPitch = true;
+	bUseControllerRotationPitch = false;
+	bUseControllerRotationRoll = false;
+	bUseControllerRotationYaw = false;
 
 	//objects
 	FlashLightMesh = CreateDefaultSubobject<UChildActorComponent>(TEXT("FlashLight"));
@@ -38,9 +40,6 @@ AGameJamCharacter::AGameJamCharacter()
 void AGameJamCharacter::BeginPlay()
 {
 	Super::BeginPlay();
-
-	SetActorRotation(GetControlRotation());
-
 }
 
 // Called every frame
@@ -67,11 +66,6 @@ void AGameJamCharacter::Tick(float DeltaTime)
 	{
 		DragProgress(Hit);
 	}
-
-	/*if ((!IsLocallyControlled()) && GetWorld()->IsServer()) 
-	{
-		GetMesh()->SetWorldRotation(GetControlRotation());
-	}*/
 	
 }
 
@@ -213,6 +207,12 @@ void 	AGameJamCharacter::InteractStart_Implementation()
 	OnHitDraggableActor(OutHit);
 }
 
+void AGameJamCharacter::SetAgainstPawnCollisionSettings_Implementation(UPrimitiveComponent* Component, const ECollisionResponse NewResponse)
+{
+	if (!Component) { return; }
+	Component->SetCollisionResponseToChannel(ECC_Pawn, NewResponse);
+}
+
 void AGameJamCharacter::DragStart_Implementation()
 {
 	FHitResult OutHit = StartDefaultLineTrace(ECC_GameTraceChannel1);
@@ -228,10 +228,9 @@ void AGameJamCharacter::DragStart_Implementation()
 
 	PickUpObjectCollision = ToBeGrabbed->GetCollisionResponseToChannel(ECC_Pawn);
 
-	ToBeGrabbed->SetCollisionResponseToChannel(ECC_Pawn, ECR_Ignore);
+	SetAgainstPawnCollisionSettings(ToBeGrabbed, ECR_Ignore);
 
 	PhysicsHandle->GrabComponentAtLocation(ToBeGrabbed, TEXT(""), OutHit.Location);
-
 }
 
 void AGameJamCharacter::DragAndInteract_Implementation()
@@ -255,7 +254,7 @@ void AGameJamCharacter::DragEnd_Implementation()
 		return;
 	}
 
-	Component->SetCollisionResponseToChannel(ECC_Pawn, PickUpObjectCollision);
+	SetAgainstPawnCollisionSettings(Component, PickUpObjectCollision);
 
 	PhysicsHandle->ReleaseComponent();
 }
