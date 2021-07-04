@@ -23,7 +23,7 @@ AActor* AEscapeGameModeBase::ChoosePlayerStart_Implementation(AController* Playe
 {
 	TArray<AActor*> Spawns = GetPlayerSpawnsSorted();
 
-	AActor* ToReturn = Spawns[(PlayerCount++) % (Spawns.Num() - 1)];
+	AActor* ToReturn = Spawns[(PlayerCount++) % (Spawns.Num())];
 
 	GEngine->AddOnScreenDebugMessage(-1, 5.0f, FColor::Yellow, FString::Printf(TEXT("Name: %s, Num: %i, len: %i"), *ToReturn->GetName(), PlayerCount, Spawns.Num()));
 
