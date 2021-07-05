@@ -50,6 +50,8 @@ public:
 
 	UFUNCTION(BlueprintImplementableEvent)
 		void OnHitDraggableActor(FHitResult Hit);
+	UFUNCTION(BlueprintImplementableEvent)
+		void ShowOrHideCursorUI(bool Visibility);
 
 private:
 

@@ -47,26 +47,13 @@ void AGameJamCharacter::Tick(float DeltaTime)
 {
 	Super::Tick(DeltaTime);
 
+	if (!HasAuthority()) { return; }
+
 	FHitResult Hit = StartDefaultLineTrace(ECC_Visibility);
 
-	DrawDebugSphere
-	(
-		GetWorld(),
-		Hit.Location,
-		2.f,
-		1,
-		FColor::Red,
-		false,
-		0.1,
-		1,
-		1.f
-	);
+	//if (IsLocallyControlled()) { ShowOrHideCursorUI(FVector::Dist(Hit.Location, GetActorLocation()) <= ReachRange); }
 
-	if (HasAuthority())
-	{
-		DragProgress(Hit);
-	}
-	
+	 DragProgress(Hit); 
 }
 
 void AGameJamCharacter::DragProgress_Implementation(FHitResult Hit)
