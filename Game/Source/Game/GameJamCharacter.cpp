@@ -173,10 +173,6 @@ void AGameJamCharacter::LookUpDown(float AxisValue)
 
 void AGameJamCharacter::MoveJump()
 {
-	if (!CanJump())
-	{
-		return;
-	}
 	Jump();
 }
 
